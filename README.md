@@ -1,6 +1,4 @@
----
-
-# ⚙️ Setup & Usage Guide
+# ⚙️ Setup & Usage Guide 
 
 ## 🔒 Prerequisites (Mandatory)
 
@@ -263,5 +261,3 @@ For a cleaner setup (no `.bat`, no PATH issues), convert this into a CLI tool us
 ```powershell
 pip install -e .
 ```
-
----
