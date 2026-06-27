@@ -1,102 +1,251 @@
-# WORM Agent 🐛⚙️
+---
 
-A lightweight, terminal-based AI code agent powered by local LLMs (via Ollama) designed to analyze, refactor, and auto-fix Python code with minimal user interaction.
+# ⚙️ Setup & Usage Guide
 
-## 🚀 Intent
+## 🔒 Prerequisites (Mandatory)
 
-The goal of this project is to simulate a **local AI engineering assistant** that operates directly from the terminal—without a GUI—capable of understanding project context, rewriting code, and ensuring syntactic correctness automatically.
+Before using WORM Agent, ensure the following:
 
-This project was built to:
-- Strengthen QA + Automation engineering skills
-- Explore AI-assisted code generation workflows
-- Build a Cursor-like experience using fully local infrastructure
-- Create a practical, resume-level system demonstrating real-world problem solving
+### 1. Install Ollama
+
+Download and install from:
+
+[Ollama Official Website](https://ollama.com?utm_source=chatgpt.com)
+
+Verify installation:
+
+```powershell
+ollama --version
+```
 
 ---
 
-## 🧠 Core Features
+### 2. Pull Required Model
 
-- **Prompt-driven code transformation**
-  - Pass instructions via terminal
-  - Works on single files or piped input
+This project is designed to work with:
 
-- **Project-wide context awareness**
-  - Scans repository
-  - Builds contextual understanding before generating output
+```powershell
+ollama pull deepseek-coder:6.7b
+```
 
-- **Clean code extraction**
-  - Filters model output
-  - Removes markdown, explanations, and noise
-
-- **AST-based validation**
-  - Ensures generated Python code is syntactically valid
-  - Prevents corrupt or broken file writes
-
-- **Auto-retry self-healing loop**
-  - Detects syntax errors
-  - Sends feedback to model
-  - Iteratively fixes code
-
-- **Diff preview before applying changes**
-  - Full transparency of modifications
-  - User-controlled write operation
+> ⚠️ Constraint: The agent expects a **code-capable model**. Using other models may degrade output quality or break formatting.
 
 ---
 
-## ⚙️ Tech Stack
+### 3. Ensure Ollama is Running
 
-- Python
-- Ollama (Local LLM runtime)
-- DeepSeek-Coder (or similar coding models)
-- AST (Abstract Syntax Tree validation)
-- Custom modular architecture
+```powershell
+ollama serve
+```
 
----
-
-## 📂 Project Structure
-worm-agent/
-├── worm.py # Entry point (CLI logic)
-├── config.py # Configuration
-├── core/
-│ ├── scanner.py # Project file discovery
-│ ├── context_builder.py # Context generation
-│ ├── prompt_builder.py # Prompt engineering
-│ ├── ollama_client.py # Model communication
-│ └── diff_engine.py # Code diff visualization
-
+If already running, you may see a port error—that’s fine.
 
 ---
 
-## 🧪 Example Usage
+# 🧩 Step-by-Step: Add `worm` to System PATH
 
-```bash
+## Step 1 — Verify Project Location
+
+Example:
+
+```text
+..\worm-agent
+```
+
+Ensure it contains:
+
+```text
+worm.py
+worm.bat
+core/
+```
+
+---
+
+## Step 2 — Validate `worm.bat`
+
+Open `worm.bat` and ensure:
+
+```bat
+@echo off
+python "%~dp0worm.py" %*
+```
+
+---
+
+## Step 3 — Add Folder to PATH
+
+### Option A — GUI Method (Recommended)
+
+1. Press **Win + S**
+2. Search → *Environment Variables*
+3. Click → **Edit the system environment variables**
+4. Click → **Environment Variables**
+5. Under **User variables**, find `Path` → click **Edit**
+6. Click **New** → add:
+
+```text
+..\worm-agent
+```
+
+7. Click **OK** → **OK** → **OK**
+
+---
+
+### Option B — PowerShell Method
+
+```powershell
+[Environment]::SetEnvironmentVariable(
+  "Path",
+  [Environment]::GetEnvironmentVariable("Path", "User") + ";..\worm-agent",
+  "User"
+)
+```
+
+---
+
+## Step 4 — Restart Terminal (Critical)
+
+* Close VS Code completely
+* Reopen terminal
+
+---
+
+## Step 5 — Verify Installation
+
+```powershell
+where worm
+```
+
+Expected output:
+
+```text
+..\worm-agent\worm.bat
+```
+
+---
+
+# 🚀 Usage
+
+## Basic Command
+
+```powershell
 worm conftest.py "optimize and clean code"
+```
 
-
-
-Or with piped input:
-
-```bash
-type file_name.<extension> | worm "refactor and improve structure"
 ---
 
-🔒 Safety Mechanisms
-Code is never written directly
-All changes go through:
-Extraction
-Validation
-Diff preview
-Manual confirmation
+## With Piped Input
 
+```powershell
+type conftest.py | worm "refactor and improve structure"
+```
 
-🎯 Future Improvements
-Runtime execution + error fixing loop
-Pytest integration for auto-fixing failing tests
-Multi-file refactoring intelligence
-Semantic diff editing (partial updates instead of full rewrites)
+---
 
+# ❌ If `worm` Command Does NOT Work
 
+## 1. Try Direct Execution
 
-📌 Summary
+```powershell
+..\worm-agent\worm.bat conftest.py "fix bugs"
+```
 
-WORM Agent is an experimental step toward building a self-correcting AI development assistant that runs entirely locally, giving developers full control, transparency, and privacy.
+---
+
+## 2. Temporary PATH Fix (Session Only)
+
+```powershell
+$env:Path += ";..\worm-agent"
+```
+
+Then:
+
+```powershell
+worm conftest.py "optimize code"
+```
+
+---
+
+## 3. Use PowerShell Alias (Quick Fix)
+
+```powershell
+Set-Alias worm "..\worm-agent\worm.bat"
+```
+
+---
+
+## 4. Verify File Extension
+
+Run:
+
+```powershell
+ls ..\worm-agent
+```
+
+Ensure:
+
+```text
+worm.bat
+```
+
+NOT:
+
+* `worm.bat.txt` ❌
+* `worm` ❌
+
+---
+
+# ⚠️ Common Issues
+
+### Port Already in Use (Ollama)
+
+```text
+listen tcp 127.0.0.1:11434: bind error
+```
+
+✔ Means Ollama is already running → ignore
+
+---
+
+### `worm not recognized`
+
+✔ PATH not set correctly
+✔ Terminal not restarted
+✔ `.bat` not detected
+
+---
+
+### Broken Virtual Environment
+
+If pip fails:
+
+```powershell
+python -m venv venv
+venv\Scripts\activate
+python -m pip install --upgrade pip
+```
+
+---
+
+# 🧠 Summary
+
+To run WORM Agent successfully:
+
+* ✔ Ollama installed and running
+* ✔ `deepseek-coder:6.7b` model pulled
+* ✔ `worm-agent` folder added to PATH
+* ✔ Terminal restarted
+* ✔ Command verified using `where worm`
+
+---
+
+# 🔥 Pro Tip
+
+For a cleaner setup (no `.bat`, no PATH issues), convert this into a CLI tool using:
+
+```powershell
+pip install -e .
+```
+
+---
