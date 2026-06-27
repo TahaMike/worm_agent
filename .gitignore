@@ -1,0 +1,5 @@
+worm_agent.egg-info/
+
+__pycache__/
+
+core/__pycache__/
