@@ -1,5 +1,44 @@
-worm_agent.egg-info/
-
+# Python
 __pycache__/
-
 core/__pycache__/
+
+# Virtual environments
+venv/
+venv1/
+env/
+.venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# Pytest
+.pytest_cache/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Temporary files
+*.tmp
+*.swp
+
+# Local config (if sensitive)
+.env
+
+# Ollama / model cache (optional, large files)
+*.bin
+*.gguf
+models/
