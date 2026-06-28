@@ -1,4 +1,4 @@
-from config import MAX_CONTEXT_FILES
+from assertix.config import MAX_CONTEXT_FILES
 
 def build_context(files, exclude_file):
     context = ""

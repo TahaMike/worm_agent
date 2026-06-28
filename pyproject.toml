@@ -1,0 +1,11 @@
+[project]
+name = "assertix"
+version = "0.1.0"
+description = "AI-powered code refactoring and validation CLI"
+authors = [{name = "Taha"}]
+dependencies = [
+    "requests"
+]
+
+[project.scripts]
+assertix = "assertix.cli:main"

@@ -3,12 +3,11 @@ import os
 import re
 import ast
 
-from core.scanner import get_python_files
-from core.context_builder import build_context
-from core.prompt_builder import build_prompt
-from core.ollama_client import query_ollama
-from core.diff_engine import show_diff
-
+from assertix.core.scanner import get_python_files
+from assertix.core.context_builder import build_context
+from assertix.core.prompt_builder import build_prompt
+from assertix.core.ollama_client import query_ollama
+from assertix.core.diff_engine import show_diff
 
 def is_valid_python(code):
     try:
